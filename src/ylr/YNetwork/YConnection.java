@@ -170,12 +170,13 @@ public class YConnection
 						for(int i = 0;i < l;i++)
 						{
 							dataBuf[13 + i] = data[sendLength + i];
+							
 						}
-						
+						dataBuf[l + 13] = YConnection.StatusWord.EndFlag;
 						sendLength += l;
 						
 						//发送
-						socketSndStream.write(dataBuf, 0, l);
+						socketSndStream.write(dataBuf, 0, l + 14);
 						
 						//接收服务器响应
 						r = socketRcvStream.read(dataBuf);
@@ -242,5 +243,39 @@ public class YConnection
 		}
 		
 		return retValue;
+	}
+	
+	/**
+	 * 使用指定的套接字发送文本。
+	 * @author 董帅 创建时间：2013-2-21 10:45:44
+	 * 
+	 * @param s 指定的套接字。
+	 * @param text 要发送的文本。
+	 * @param packageLength 被每个数据包最大长度。
+	 * @param time 超时时间。
+	 * @param decode 指定网络数据流中的编码集。
+	 * 
+	 * @return 成功返回true，否则返回false。
+	 * 
+	 * @throws Exception 抛出的未知异常。
+	 */
+	public static boolean sendData(Socket s,String text,int packageLength,int time,String decode) throws Exception
+	{
+		try
+		{
+			//将字符串转换成二进制
+			byte[] data = new byte[text.getBytes(decode).length + 1];
+			for(int i = 0;i < text.getBytes(decode).length;i++)
+			{
+				data[i] = text.getBytes(decode)[i];
+			}
+			data[text.getBytes(decode).length] = 0x00;
+			
+			return YConnection.sendData(s, data,packageLength,time);
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}
 	}
 }
