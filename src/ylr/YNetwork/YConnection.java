@@ -1,7 +1,5 @@
 package ylr.YNetwork;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -33,15 +31,15 @@ public class YConnection
 	{
 		public static final int EndFlag = 0x00;       /**< 数据包结束位。 */
 		
-		public static final int Yes = 0x01;           /**< 请求成功。 */
-		public static final int No = 0x02;            /**< 请求失败。 */
-		public static final int Go = 0x03;            /**< 继续。 */
-		public static final int End = 0x04;           /**< 结束。 */
-		public static final int Error = 0x05;         /**< 出错。 */
+		public static final byte Yes = 0x01;           /**< 请求成功。 */
+		public static final byte No = 0x02;            /**< 请求失败。 */
+		public static final byte Go = 0x03;            /**< 继续。 */
+		public static final byte End = 0x04;           /**< 结束。 */
+		public static final byte Error = 0x05;         /**< 出错。 */
 		
-		public static final int SendData = 0x21;      /**< 请求发送数据。 */
+		public static final byte SendData = 0x21;      /**< 请求发送数据。 */
 
-		public static final int DataPackage = 0xFF;   /**< 数据包，不含有状态。 */
+		public static final byte DataPackage = (byte) 0xFF;   /**< 数据包，不含有状态。 */
 	};
 	
 	/**
@@ -259,7 +257,7 @@ public class YConnection
 	 * 
 	 * @throws Exception 抛出的未知异常。
 	 */
-	public static boolean sendData(Socket s,String text,int packageLength,int time,String decode) throws Exception
+	public static boolean sendString(Socket s,String text,int packageLength,int time,String decode) throws Exception
 	{
 		try
 		{
@@ -277,5 +275,161 @@ public class YConnection
 		{
 			throw ex;
 		}
+	}
+	
+	/**
+	 * 接收二进制数据。
+	 * 
+	 * @author 董帅 创建时间：2013-2-25 11:18:36
+	 * @param s 接收数据使用的套接字。
+	 * @param bufLength 接收数据缓冲区长度。
+	 * @param time 超时时间
+	 * @return 成功返回接收到得数据，否则返回null。
+	 * @throws Exception 抛出的未处理异常。
+	 */
+	public static byte[] recaiveData(Socket s,int bufLength,int time) throws Exception
+	{
+		byte[] retValue = null;
+		try
+		{
+			s.setSoTimeout(time); //设置超时时间。
+			
+			OutputStream socketSndStream = s.getOutputStream(); //获取发送数据流
+			InputStream socketRcvStream = s.getInputStream(); //获取接收数据流
+			
+			byte[] rcvBuf = new byte[bufLength + 14]; //接收数据缓冲区
+			byte[] resData = new byte[14]; //响应数据
+			
+			int r = socketRcvStream.read(rcvBuf);
+			if(r > 0)
+			{
+				if(YConnection.StatusWord.SendData == rcvBuf[0])
+				{
+					resData[0] = YConnection.StatusWord.Yes;
+					
+					//设置请求数据包总数
+					resData[4] = (byte)((1 >> 24) & 0xFF);
+					resData[3] = (byte)((1 >> 16) & 0xFF);
+					resData[2] = (byte)((1 >> 8) & 0xFF);
+					resData[1] = (byte)(1 & 0xFF);
+					
+					//设置请求数据包序号
+					resData[8] = (byte)((1 >> 24) & 0xFF);
+					resData[7] = (byte)((1 >> 16) & 0xFF);
+					resData[6] = (byte)((1 >> 8) & 0xFF);
+					resData[5] = (byte)(1 & 0xFF);
+					
+					//设置数据长度
+					resData[12] = (byte)((0 >> 24) & 0xFF);
+					resData[11] = (byte)((0 >> 16) & 0xFF);
+					resData[10] = (byte)((0 >> 8) & 0xFF);
+					resData[9] = (byte)(0 & 0xFF);
+					
+					//设置结束位
+					resData[13] = YConnection.StatusWord.EndFlag;
+					
+					//允许传输
+					socketSndStream.write(resData);
+					
+					//接收数据
+					retValue = new byte[0];
+					while(true)
+					{
+						r = socketRcvStream.read(rcvBuf);
+						
+						if(r > 0)
+						{
+							if(YConnection.StatusWord.DataPackage == rcvBuf[0])
+							{
+								int packageLength = 0; //数据包中数据长度
+								
+								byte bLoop;  
+								for ( int i = 0; i < 4 ; i++) 
+								{  
+									bLoop = rcvBuf[9 + i];  
+									packageLength += (bLoop & 0xFF) << (8 * i);  
+								}
+								
+								System.out.println(packageLength);
+								
+								if(packageLength > 0)
+								{
+									byte[] d = new byte[retValue.length + packageLength];
+									for(int i = 0;i < retValue.length;i++)
+									{
+										d[i] = retValue[i];
+									}
+									
+									for(int i = 0;i < packageLength;i++)
+									{
+										d[i + retValue.length] = rcvBuf[13 + i];
+									}
+									retValue = d;
+								}
+
+								//继续接收数据
+								resData[0] = YConnection.StatusWord.Go;
+								socketSndStream.write(resData);
+							}
+							else if(YConnection.StatusWord.End == rcvBuf[0])
+							{
+								//接收数据完成。
+								break;
+							}
+							else
+							{
+								//接收到得数据不是数据包，发送出错响应并停止接收。
+								retValue = null;
+								resData[0] = YConnection.StatusWord.Error;
+								socketSndStream.write(resData);
+								break;
+							}
+						}
+						else
+						{
+							//接收数据失败
+							break;
+						}
+					}
+					
+				}//判断请求位为发送数据请求
+			}//接收请求数据
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}
+		
+		return retValue;
+	}
+	
+	/**
+	 * 接收字符串。
+	 * @param s 使用的额套接字。
+	 * @param bufLength 接收缓冲区长度
+	 * @param time 超时时间。
+	 * @param decode 使用的编码集
+	 * @return 成功返回接收到得字符串，否则返回null。
+	 * @throws Exception 抛出的未处理异常。
+	 */
+	public static String receiveString(Socket s,int bufLength,int time,String decode) throws Exception
+	{
+		String retValue = null; //返回数据
+		
+		try
+		{
+			byte[] data = YConnection.recaiveData(s, bufLength, time);
+			
+			if(data != null && data.length > 0)
+			{
+				retValue = new String(data,decode);
+			}
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}
+		
+		return retValue;
 	}
 }
