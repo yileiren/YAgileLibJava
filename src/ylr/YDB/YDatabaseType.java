@@ -1,4 +1,4 @@
-package ylr.YSQL;
+package ylr.YDB;
 
 /**
  * 数据库类型。
