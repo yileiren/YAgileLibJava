@@ -7,5 +7,12 @@ package ylr.YDB;
  */
 public enum YDatabaseType
 {
+	/**
+	 * 微软SQLServer数据库。
+	 */
+	MSSQLServer,
+	/**
+	 * MySQL数据库。
+	 */
 	MySQL
 }

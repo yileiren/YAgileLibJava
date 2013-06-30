@@ -1,6 +1,5 @@
 package ylr.YDB;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,58 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * MySQL数据库操作类。
- * @author 董帅 创建时间：2013年5月21日 11时02分59秒
+ * 微软SQLServer数据库操作类。
+ * 
+ * @author 董帅 创建时间：2013-06-30 22:17:36
  *
  */
-public class YMySQLDatabase implements YDatabase
+public class YMSSQLServer implements YDatabase
 {
-	//测试方法。
-//	public static void main(String[] args) 
-//	{
-//		try
-//		{
-//			YMySQLDatabase db = new YMySQLDatabase();
-//			db.setServerName("192.168.56.90");
-//			db.setUserName("yileiren");
-//			db.setUserPassword("ylr");
-//			db.setDatabaseName("test");
-//			
-//			if(db.connectDataBase())
-//			{
-//				if(!db.beginTransaction())
-//				{
-//					System.out.println(db.getLastErrorMessage());
-//				}
-//				System.out.println("dd");
-//				int count = db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd')");
-//				if(count > 0)
-//				{
-//					db.commitTransaction();
-//					System.out.println(count);
-//					db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd2')");
-//					ResultSet data = db.executeSqlReturnData("SELECT * FROM tb_test");
-//					while(data.next())
-//					{
-//						System.out.println("" + data.getInt("id") + "|" + data.getString("name"));
-//					}
-//				}
-//				else
-//				{
-//					System.out.println(db.getLastErrorMessage());
-//				}
-//				db.disconnectDataBase();
-//			}
-//			else
-//			{
-//				System.out.println("connectError!" + db.getLastErrorMessage());
-//			}
-//		}
-//		catch(Exception ex)
-//		{
-//			ex.printStackTrace();
-//		}
-//	}
 	/**
 	 * 数据库连接。
 	 */
@@ -98,23 +52,25 @@ public class YMySQLDatabase implements YDatabase
 	/**
 	 * 默认构造函数。
 	 */
-	YMySQLDatabase()
+	YMSSQLServer()
 	{
 		
 	}
-	
+
 	/**
 	 * 获取数据库类型。
+	 * 
 	 * @return 数据库类型。
 	 */
 	public YDatabaseType getDatabaseType()
 	{
-		return YDatabaseType.MySQL;
+		return YDatabaseType.MSSQLServer;
 	}
 
 	/**
 	 * 获取最后一次错误信息。
-	 * @return 错误信息。
+	 * 
+	 * @return 最后一次错误信息。
 	 */
 	public String getLastErrorMessage()
 	{
@@ -123,6 +79,7 @@ public class YMySQLDatabase implements YDatabase
 
 	/**
 	 * 获取服务器名称。
+	 * 
 	 * @return 服务器名称。
 	 */
 	public String getServerName()
@@ -132,16 +89,18 @@ public class YMySQLDatabase implements YDatabase
 
 	/**
 	 * 设置服务器名称。
-	 * @param serverName 服务器名称。
+	 * 
+	 * @param _serverName 服务器名称。
 	 */
-	public void setServerName(String serverName)
+	public void setServerName(String _serverName)
 	{
-		this._serverName = serverName;
+		this._serverName = _serverName;
 	}
 
 	/**
-	 * 获取数据库端口。
-	 * @return 数据库端口。
+	 * 获取服务器端口号。
+	 * 
+	 * @return 服务器端口号。
 	 */
 	public int getPort()
 	{
@@ -149,17 +108,19 @@ public class YMySQLDatabase implements YDatabase
 	}
 
 	/**
-	 * 设置数据库端口。
-	 * @param port 数据库端口。
+	 * 设置服务器端口号。
+	 * 
+	 * @param _port 服务器端口号。
 	 */
-	public void setPort(int port)
+	public void setPort(int _port)
 	{
-		this._port = port;
+		this._port = _port;
 	}
 
 	/**
-	 * 获取登录用户名。
-	 * @return 登录用户名。
+	 * 获取用户名。
+	 * 
+	 * @return 用户名。
 	 */
 	public String getUserName()
 	{
@@ -167,17 +128,19 @@ public class YMySQLDatabase implements YDatabase
 	}
 
 	/**
-	 * 设置登录用户名。
-	 * @param userName 登录用户名。
+	 * 设置用户名。
+	 * 
+	 * @param _userName 用户名。
 	 */
-	public void setUserName(String userName)
+	public void setUserName(String _userName)
 	{
-		this._userName = userName;
+		this._userName = _userName;
 	}
 
 	/**
-	 * 获取登录用户密码。
-	 * @return 登录用户密码。
+	 * 获取用户密码。
+	 * 
+	 * @return 用户密码。
 	 */
 	public String getUserPassword()
 	{
@@ -185,16 +148,18 @@ public class YMySQLDatabase implements YDatabase
 	}
 
 	/**
-	 * 设置登录用户密码。
-	 * @param userPassword 登录用户密码。
+	 * 设置用户密码。
+	 * 
+	 * @param _userPassword 用户密码。
 	 */
-	public void setUserPassword(String userPassword)
+	public void setUserPassword(String _userPassword)
 	{
-		this._userPassword = userPassword;
+		this._userPassword = _userPassword;
 	}
 
 	/**
 	 * 获取数据库名称。
+	 * 
 	 * @return 数据库名称。
 	 */
 	public String getDatabaseName()
@@ -204,15 +169,17 @@ public class YMySQLDatabase implements YDatabase
 
 	/**
 	 * 设置数据库名称。
-	 * @param databaseName 数据库名称。
+	 * 
+	 * @param _databaseName 数据库名称。
 	 */
-	public void setDatabaseName(String databaseName)
+	public void setDatabaseName(String _databaseName)
 	{
-		this._databaseName = databaseName;
+		this._databaseName = _databaseName;
 	}
 
 	/**
 	 * 连接数据库。
+	 * 
 	 * @return 成功返回true，否则返回false。
 	 */
 	public boolean connectDataBase()
@@ -222,10 +189,10 @@ public class YMySQLDatabase implements YDatabase
 		{
 			if(null == this._conn)
 			{
-				String url="jdbc:mysql://" + this._serverName + ":" + String.valueOf(this._port) + "/" + this._databaseName;
+				String url="jdbc:sqlserver://" + this._serverName + ":" + String.valueOf(this._port) + ";DatabaseName=" + this._databaseName;
 				
 				//加载驱动
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 				//连接数据库
 				this._conn = DriverManager.getConnection(url, this._userName, this._userPassword);
 			}
@@ -240,9 +207,10 @@ public class YMySQLDatabase implements YDatabase
 	}
 
 	/**
-     * 断开数据库连接。
-     * @return 成功返回true，否则返回false。
-     */
+	 * 断开数据库连接。
+	 * 
+	 * @return 成功返回true，否则返回false。
+	 */
 	public boolean disconnectDataBase()
 	{
 		boolean retValue = false;
@@ -263,9 +231,10 @@ public class YMySQLDatabase implements YDatabase
 	}
 
 	/**
-     * 开启数据库事务。
-     * @return 成功返回true，否则返回false。
-     */
+	 * 开启事务。
+	 * 
+	 * @return 成功返回true，否则返回false。
+	 */
 	public boolean beginTransaction()
 	{
 		boolean retValue = false;
@@ -360,5 +329,4 @@ public class YMySQLDatabase implements YDatabase
 		}
 		return retValue;
 	}
-
 }
