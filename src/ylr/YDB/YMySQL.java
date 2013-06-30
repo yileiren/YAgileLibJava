@@ -12,7 +12,7 @@ import java.sql.Statement;
  * @author 董帅 创建时间：2013年5月21日 11时02分59秒
  *
  */
-public class YMySQLDatabase implements YDatabase
+public class YMySQL implements YDatabase
 {
 	//测试方法。
 //	public static void main(String[] args) 
@@ -98,7 +98,7 @@ public class YMySQLDatabase implements YDatabase
 	/**
 	 * 默认构造函数。
 	 */
-	YMySQLDatabase()
+	YMySQL()
 	{
 		
 	}

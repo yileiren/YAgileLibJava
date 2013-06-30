@@ -14,6 +14,53 @@ import java.sql.Statement;
  */
 public class YMSSQLServer implements YDatabase
 {
+	//测试方法。
+//	public static void main(String[] args) 
+//	{
+//		try
+//		{
+//			YMSSQLServer db = new YMSSQLServer();
+//			db.setServerName("192.168.16.70");
+//			db.setUserName("sa");
+//			db.setUserPassword("dongshuai@617");
+//			db.setDatabaseName("test");
+//			
+//			if(db.connectDataBase())
+//			{
+//				if(!db.beginTransaction())
+//				{
+//					System.out.println(db.getLastErrorMessage());
+//				}
+//				System.out.println("dd");
+//				int count = db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd')");
+//				if(count > 0)
+//				{
+//					db.commitTransaction();
+//					System.out.println(count);
+//					db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd2')");
+//					ResultSet data = db.executeSqlReturnData("SELECT * FROM tb_test");
+//					while(data.next())
+//					{
+//						System.out.println("" + data.getInt("id") + "|" + data.getString("name"));
+//					}
+//				}
+//				else
+//				{
+//					System.out.println(db.getLastErrorMessage());
+//				}
+//				db.disconnectDataBase();
+//			}
+//			else
+//			{
+//				System.out.println("connectError!" + db.getLastErrorMessage());
+//			}
+//		}
+//		catch(Exception ex)
+//		{
+//			ex.printStackTrace();
+//		}
+//	}
+	
 	/**
 	 * 数据库连接。
 	 */
@@ -32,7 +79,7 @@ public class YMSSQLServer implements YDatabase
 	/**
 	 * 数据库服务端口号。
 	 */
-	private int _port = 3306;
+	private int _port = 1433;
 	
 	/**
 	 * 登录用户名。
