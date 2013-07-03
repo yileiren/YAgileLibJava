@@ -7,13 +7,13 @@ import java.sql.ResultSet;
  * @author 董帅 创建时间：2013年5月21日 10时45分54秒
  *
  */
-public interface YDatabase 
+public interface YDataBase 
 {
 	/**
 	 * 获取数据库类型。
 	 * @return 数据库类型。
 	 */
-	YDatabaseType getDatabaseType();
+	YDataBaseType getDatabaseType();
 	
 	/**
 	 * 获取最后一次错误信息。

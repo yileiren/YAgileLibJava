@@ -5,14 +5,18 @@ package ylr.YDB;
  * @author 董帅 创建时间：2013年5月21日 10时47分25秒
  *
  */
-public enum YDatabaseType
+public enum YDataBaseType
 {
 	/**
 	 * 微软SQLServer数据库。
 	 */
-	MSSQLServer,
+	MSSQL,
 	/**
 	 * MySQL数据库。
 	 */
-	MySQL
+	MySQL,
+	/**
+	 * 未知数据库类型。
+	 */
+	None
 }

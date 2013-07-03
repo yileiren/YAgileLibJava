@@ -12,7 +12,7 @@ import java.sql.Statement;
  * @author 董帅 创建时间：2013-06-30 22:17:36
  *
  */
-public class YMSSQLServer implements YDatabase
+public class YMSSQLServer implements YDataBase
 {
 	//测试方法。
 //	public static void main(String[] args) 
@@ -109,9 +109,9 @@ public class YMSSQLServer implements YDatabase
 	 * 
 	 * @return 数据库类型。
 	 */
-	public YDatabaseType getDatabaseType()
+	public YDataBaseType getDatabaseType()
 	{
-		return YDatabaseType.MSSQLServer;
+		return YDataBaseType.MSSQL;
 	}
 
 	/**

@@ -12,7 +12,7 @@ import java.sql.Statement;
  * @author 董帅 创建时间：2013年5月21日 11时02分59秒
  *
  */
-public class YMySQL implements YDatabase
+public class YMySQL implements YDataBase
 {
 	//测试方法。
 //	public static void main(String[] args) 
@@ -107,9 +107,9 @@ public class YMySQL implements YDatabase
 	 * 获取数据库类型。
 	 * @return 数据库类型。
 	 */
-	public YDatabaseType getDatabaseType()
+	public YDataBaseType getDatabaseType()
 	{
-		return YDatabaseType.MySQL;
+		return YDataBaseType.MySQL;
 	}
 
 	/**
