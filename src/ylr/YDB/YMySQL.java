@@ -2,7 +2,9 @@ package ylr.YDB;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -356,6 +358,65 @@ public class YMySQL implements YDataBase
 		
 		return retValue;
 	}
+	
+	/**
+     * 执行带有数据返回的sql。
+     * @param sql 要执行的sql语句。
+     * @param p sql语句使用的参数。
+     * @return 成功返回数据集，否则返回null。
+     */
+	public ResultSet executeSqlReturnData(String sql, YSqlParameters p)
+	{
+		ResultSet retValue = null;
+		PreparedStatement ps = null;
+		try
+		{
+			ps = this._conn.prepareStatement(sql);
+			
+			//设置参数。
+			for(int i = 0;i < p.getParametersCount();i++)
+			{
+				if(Integer.class == p.getValue(i).getClass())
+				{
+					ps.setInt(p.getIndex(i), (int) p.getValue(i));
+				}
+				else if(Long.class == p.getValue(i).getClass())
+				{
+					ps.setLong(p.getIndex(i), (long) p.getValue(i));
+				}
+				else if(Date.class == p.getValue(i).getClass())
+				{
+					ps.setDate(p.getIndex(i), (Date) p.getValue(i));
+				}
+				else
+				{
+					ps.setString(p.getIndex(i), (String) p.getValue(i));
+				}
+			}
+			
+			retValue = ps.executeQuery(sql);
+		}
+		catch(Exception ex)
+		{
+			this._lastErrorMessage = "执行sql语句出错！||" + ex.getMessage();
+		}
+		finally
+		{
+			if(null != ps)
+			{
+				try
+				{
+					ps.close();
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return retValue;
+	}
 
 	/**
      * 执行没有数据返回的sql。
@@ -394,4 +455,62 @@ public class YMySQL implements YDataBase
 		return retValue;
 	}
 
+	/**
+     * 执行没有数据返回的sql。
+     * @param sql 要执行的sql语句。
+     * @param p sql语句使用的参数。
+     * @return 成功返回数据响应行数，失败返回-1。
+     */
+	public int executeSqlWithOutData(String sql, YSqlParameters p)
+	{
+		int retValue = -1;
+		PreparedStatement ps = null;
+		try
+		{
+			ps = this._conn.prepareStatement(sql);
+			
+			//设置参数。
+			for(int i = 0;i < p.getParametersCount();i++)
+			{
+				if(Integer.class == p.getValue(i).getClass())
+				{
+					ps.setInt(p.getIndex(i), (int) p.getValue(i));
+				}
+				else if(Long.class == p.getValue(i).getClass())
+				{
+					ps.setLong(p.getIndex(i), (long) p.getValue(i));
+				}
+				else if(Date.class == p.getValue(i).getClass())
+				{
+					ps.setDate(p.getIndex(i), (Date) p.getValue(i));
+				}
+				else
+				{
+					ps.setString(p.getIndex(i), (String) p.getValue(i));
+				}
+			}
+			
+			retValue = ps.executeUpdate(sql);
+		}
+		catch(Exception ex)
+		{
+			this._lastErrorMessage = "执行sql语句出错！||" + ex.getMessage();
+		}
+		finally
+		{
+			if(null != ps)
+			{
+				try
+				{
+					ps.close();
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return retValue;
+	}
 }
