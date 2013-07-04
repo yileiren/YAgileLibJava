@@ -15,7 +15,7 @@ public class YSqlParameters
 	/**
 	 * 参数列表。
 	 */
-	List<SqlPar> parameters = new ArrayList<>();
+	List<SqlPar> parameters = new ArrayList<SqlPar>();
 	
 	
 	/**

@@ -65,8 +65,9 @@ public class YDataBaseConfig
 	 * 
 	 * @param configNode 配置节点。
 	 * @return 数据库类型。
+	 * @throws Exception 未处理异常。
 	 */
-	static public YDataBaseType getDataBaseType(Element configNode)
+	static public YDataBaseType getDataBaseType(Element configNode) throws Exception
 	{
 		YDataBaseType type = YDataBaseType.None;
 		
@@ -122,8 +123,9 @@ public class YDataBaseConfig
 	 * 
 	 * @param configNode 配置节点。
 	 * @return 成功返回数据库操作对象，失败返回null。
+	 * @throws Exception 未处理异常。
 	 */
-	static public YMSSQLServer getMSSQLDataBase(Element configNode)
+	static public YMSSQLServer getMSSQLDataBase(Element configNode) throws Exception
 	{
 		YMSSQLServer db = null;
 		

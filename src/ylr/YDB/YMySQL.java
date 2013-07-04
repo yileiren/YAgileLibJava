@@ -378,11 +378,11 @@ public class YMySQL implements YDataBase
 			{
 				if(Integer.class == p.getValue(i).getClass())
 				{
-					ps.setInt(p.getIndex(i), (int) p.getValue(i));
+					ps.setInt(p.getIndex(i), (Integer) p.getValue(i));
 				}
 				else if(Long.class == p.getValue(i).getClass())
 				{
-					ps.setLong(p.getIndex(i), (long) p.getValue(i));
+					ps.setLong(p.getIndex(i), (Long) p.getValue(i));
 				}
 				else if(Date.class == p.getValue(i).getClass())
 				{
@@ -474,11 +474,11 @@ public class YMySQL implements YDataBase
 			{
 				if(Integer.class == p.getValue(i).getClass())
 				{
-					ps.setInt(p.getIndex(i), (int) p.getValue(i));
+					ps.setInt(p.getIndex(i), (Integer) p.getValue(i));
 				}
 				else if(Long.class == p.getValue(i).getClass())
 				{
-					ps.setLong(p.getIndex(i), (long) p.getValue(i));
+					ps.setLong(p.getIndex(i), (Long) p.getValue(i));
 				}
 				else if(Date.class == p.getValue(i).getClass())
 				{
