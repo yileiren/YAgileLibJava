@@ -394,7 +394,7 @@ public class YMySQL implements YDataBase
 				}
 			}
 			
-			retValue = ps.executeQuery(sql);
+			retValue = ps.executeQuery();
 		}
 		catch(Exception ex)
 		{
@@ -490,7 +490,7 @@ public class YMySQL implements YDataBase
 				}
 			}
 			
-			retValue = ps.executeUpdate(sql);
+			retValue = ps.executeUpdate();
 		}
 		catch(Exception ex)
 		{

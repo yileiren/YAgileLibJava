@@ -410,7 +410,7 @@ public class YMSSQLServer implements YDataBase
 				}
 			}
 			
-			retValue = ps.executeQuery(sql);
+			retValue = ps.executeQuery();
 		}
 		catch(Exception ex)
 		{
@@ -505,7 +505,7 @@ public class YMSSQLServer implements YDataBase
 				}
 			}
 			
-			retValue = ps.executeUpdate(sql);
+			retValue = ps.executeUpdate();
 		}
 		catch(Exception ex)
 		{
