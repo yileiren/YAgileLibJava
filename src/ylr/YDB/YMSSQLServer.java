@@ -345,15 +345,32 @@ public class YMSSQLServer implements YDataBase
 	public ResultSet executeSqlReturnData(String sql)
 	{
 		ResultSet retValue = null;
+		Statement sta = null;
 		try
 		{
-			Statement sta = this._conn.createStatement();
+			sta = this._conn.createStatement();
 			retValue = sta.executeQuery(sql);
+			sta.close();
 		}
 		catch(Exception ex)
 		{
 			this._lastErrorMessage = "执行sql语句出错！||" + ex.getMessage();
 		}
+		finally
+		{
+			if(null != sta)
+			{
+				try
+				{
+					sta.close();
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return retValue;
 	}
 
@@ -365,15 +382,31 @@ public class YMSSQLServer implements YDataBase
 	public int executeSqlWithOutData(String sql)
 	{
 		int retValue = -1;
+		Statement sta = null;
 		try
 		{
-			Statement sta = this._conn.createStatement();
+			sta = this._conn.createStatement();
 			retValue = sta.executeUpdate(sql);
 		}
 		catch(Exception ex)
 		{
 			this._lastErrorMessage = "执行sql语句出错！||" + ex.getMessage();
 		}
+		finally
+		{
+			if(null != sta)
+			{
+				try
+				{
+					sta.close();
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return retValue;
 	}
 }
