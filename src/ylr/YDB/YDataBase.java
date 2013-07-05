@@ -56,7 +56,7 @@ public interface YDataBase
      * @param sql 要执行的sql语句。
      * @return 成功返回数据集，否则返回null。
      */
-    ResultSet executeSqlReturnData(String sql);
+    YDataTable executeSqlReturnData(String sql);
     
     /**
      * 执行带有数据返回的sql。
@@ -64,7 +64,7 @@ public interface YDataBase
      * @param p sql语句使用的参数。
      * @return 成功返回数据集，否则返回null。
      */
-    ResultSet executeSqlReturnData(String sql,YSqlParameters p);
+    YDataTable executeSqlReturnData(String sql,YSqlParameters p);
     
     /**
      * 执行没有数据返回的sql。

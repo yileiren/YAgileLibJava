@@ -328,14 +328,19 @@ public class YMySQL implements YDataBase
      * @param sql 要执行的sql语句。
      * @return 成功返回数据集，否则返回null。
      */
-	public ResultSet executeSqlReturnData(String sql)
+	public YDataTable executeSqlReturnData(String sql)
 	{
-		ResultSet retValue = null;
+		YDataTable retValue = null;
+		ResultSet rs = null;
 		Statement sta = null;
 		try
 		{
 			sta = this._conn.createStatement();
-			retValue = sta.executeQuery(sql);
+			rs = sta.executeQuery(sql);
+			if(null != rs)
+			{
+				retValue = new YDataTable(rs);
+			}
 		}
 		catch(Exception ex)
 		{
@@ -347,6 +352,7 @@ public class YMySQL implements YDataBase
 			{
 				try
 				{
+					rs.close();
 					sta.close();
 				}
 				catch (SQLException e)
@@ -365,9 +371,10 @@ public class YMySQL implements YDataBase
      * @param p sql语句使用的参数。
      * @return 成功返回数据集，否则返回null。
      */
-	public ResultSet executeSqlReturnData(String sql, YSqlParameters p)
+	public YDataTable executeSqlReturnData(String sql, YSqlParameters p)
 	{
-		ResultSet retValue = null;
+		YDataTable retValue = null;
+		ResultSet rs = null;
 		PreparedStatement ps = null;
 		try
 		{
@@ -394,7 +401,11 @@ public class YMySQL implements YDataBase
 				}
 			}
 			
-			retValue = ps.executeQuery();
+			rs = ps.executeQuery();
+			if(null != rs)
+			{
+				retValue = new YDataTable(rs);
+			}
 		}
 		catch(Exception ex)
 		{
@@ -406,6 +417,7 @@ public class YMySQL implements YDataBase
 			{
 				try
 				{
+					rs.close();
 					ps.close();
 				}
 				catch (SQLException e)
