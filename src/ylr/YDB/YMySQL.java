@@ -352,7 +352,10 @@ public class YMySQL implements YDataBase
 			{
 				try
 				{
-					rs.close();
+					if(null != rs)
+					{
+						rs.close();
+					}
 					sta.close();
 				}
 				catch (SQLException e)
@@ -417,7 +420,10 @@ public class YMySQL implements YDataBase
 			{
 				try
 				{
-					rs.close();
+					if(null != rs)
+					{
+						rs.close();
+					}
 					ps.close();
 				}
 				catch (SQLException e)

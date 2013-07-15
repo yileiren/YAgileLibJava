@@ -22,35 +22,16 @@ public class YMSSQLServer implements YDataBase
 //		try
 //		{
 //			YMSSQLServer db = new YMSSQLServer();
-//			db.setServerName("192.168.16.70");
+//			db.setServerName("192.168.56.30");
 //			db.setUserName("sa");
-//			db.setUserPassword("dongshuai@617");
-//			db.setDatabaseName("test");
+//			db.setUserPassword("123456");
+//			db.setDatabaseName("YAgileJSP");
 //			
 //			if(db.connectDataBase())
 //			{
-//				if(!db.beginTransaction())
-//				{
-//					System.out.println(db.getLastErrorMessage());
-//				}
+//
 //				System.out.println("dd");
-//				int count = db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd')");
-//				if(count > 0)
-//				{
-//					db.commitTransaction();
-//					System.out.println(count);
-//					db.executeSqlWithOutData("INSERT INTO tb_test (name) VALUES ('ddd2')");
-//					ResultSet data = db.executeSqlReturnData("SELECT * FROM tb_test");
-//					while(data.next())
-//					{
-//						System.out.println("" + data.getInt("id") + "|" + data.getString("name"));
-//					}
-//				}
-//				else
-//				{
-//					System.out.println(db.getLastErrorMessage());
-//				}
-//				db.disconnectDataBase();
+//				db.executeSqlReturnData("INSERT INTO SYS_MENUS (NAME) VALUES ('ddd');SELECT SCOPE_IDENTITY() AS id");
 //			}
 //			else
 //			{
@@ -368,7 +349,10 @@ public class YMSSQLServer implements YDataBase
 			{
 				try
 				{
-					rs.close();
+					if(null != rs)
+					{
+						rs.close();
+					}
 					sta.close();
 				}
 				catch (SQLException e)
@@ -433,7 +417,10 @@ public class YMSSQLServer implements YDataBase
 			{
 				try
 				{
-					rs.close();
+					if(null != rs)
+					{
+						rs.close();
+					}
 					ps.close();
 				}
 				catch (SQLException e)
