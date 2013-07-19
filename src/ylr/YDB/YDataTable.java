@@ -87,6 +87,7 @@ public class YDataTable
 							d = null;
 						break;
 					}
+				case java.sql.Types.TIMESTAMP:
 				case java.sql.Types.DATE:
 					{
 						d = rs.getDate(i + 1);
@@ -104,7 +105,7 @@ public class YDataTable
 				default:
 					{
 						Exception e = new Exception("未定义的数据类型！|数据列“" 
-								+ rsmd.getColumnName(i + 1) + "”，数据类型“" +rsmd.getColumnTypeName(i + 1) + "”");
+								+ rsmd.getColumnName(i + 1) + "”，数据类型“" +rsmd.getColumnTypeName(i + 1) + "，数值“" + rsmd.getColumnType(i + 1) + "””");
 						throw e;
 					}
 				}
